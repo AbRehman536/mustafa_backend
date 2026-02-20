@@ -28,7 +28,7 @@ class TaskServices{
        .delete();
   }
   ///Mark As Completed
-  Future markAsCompletedTask(TaskModel model)async{
+  Future markAsCompletedTask(TaskModel model, bool isCompleted)async{
     return await FirebaseFirestore.instance
         .collection(taskCollection)
         .doc(model.docId)
