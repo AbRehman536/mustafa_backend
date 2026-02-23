@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mustafa_backend/models/task.dart';
 import 'package:mustafa_backend/services/task.dart';
 import 'package:mustafa_backend/views/tasks/create_task.dart';
+import 'package:mustafa_backend/views/tasks/get_all_favorite.dart';
 import 'package:mustafa_backend/views/tasks/get_incompleted_task.dart';
 import 'package:mustafa_backend/views/tasks/update_task.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,9 @@ class GetAllTask extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=>GetInCompletedTask()));
           }, icon: Icon(Icons.incomplete_circle)),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>GetAllFavorite()));
+          }, icon: Icon(Icons.favorite)),
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
@@ -57,6 +61,25 @@ class GetAllTask extends StatelessWidget {
                                 .showSnackBar(SnackBar(content: Text(e.toString())));
                           }
                         }),
+                    IconButton(onPressed: ()async{
+                      if(taskList[index].favortie!.contains("1")){
+                        await TaskServices().removeFromFavorite(
+                            userID: "1",
+                            taskID: taskList[index].docId.toString())
+                            .then((val){
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(content: Text("Task Remove From Favorite")));
+                        });
+                      }else{
+                        await TaskServices().addToFavorite(
+                            userID: "1",
+                            taskID: taskList[index].docId.toString())
+                            .then((val){
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text("Task Add To Favorite")));
+                        });
+                      }
+                    }, icon: Icon(taskList[index].favortie!.contains("1") ? Icons.favorite : Icons.favorite_border)),
                     IconButton(onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdateTask(model: taskList[index])));
                     }, icon: Icon(Icons.edit)),
