@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mustafa_backend/models/task.dart';
 import 'package:mustafa_backend/services/task.dart';
+import 'package:mustafa_backend/views/priotrity/get_all_priorities.dart';
 import 'package:mustafa_backend/views/tasks/create_task.dart';
 import 'package:mustafa_backend/views/tasks/get_all_favorite.dart';
 import 'package:mustafa_backend/views/tasks/get_incompleted_task.dart';
@@ -27,6 +28,9 @@ class GetAllTask extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context)=>GetAllFavorite()));
           }, icon: Icon(Icons.favorite)),
+          IconButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>GetAllPriorityTask()));
+          }, icon: Icon(Icons.category_rounded)),
         ],
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){

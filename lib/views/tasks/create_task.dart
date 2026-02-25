@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mustafa_backend/models/priority.dart';
 import 'package:mustafa_backend/models/task.dart';
+import 'package:mustafa_backend/services/priority.dart';
 import 'package:mustafa_backend/services/task.dart';
 
 class CreateTask extends StatefulWidget {
@@ -14,6 +16,20 @@ class _CreateTaskState extends State<CreateTask> {
   TextEditingController descriptionController = TextEditingController();
   bool isLoading = false;
 
+  List<PriorityModel> priorityList = [];
+  PriorityModel? _selectedPriority;
+
+
+  @override
+  void initState()async{
+    super.initState();
+    await PriorityServices().getPriorities()
+        .then((value){
+      priorityList = value;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +40,20 @@ class _CreateTaskState extends State<CreateTask> {
         children: [
           TextField(controller: titleController,),
           TextField(controller: descriptionController,),
+          DropdownButton(
+            hint: Text("Select Priority"),
+              value: _selectedPriority,
+              items: priorityList.map((item){
+                return DropdownMenuItem(
+                  value: item,
+                  child: Text(item.name.toString()),
+                );
+              }).toList(),
+              onChanged: (value){
+              setState(() {
+                _selectedPriority = value;
+              });
+              }),
           isLoading ? Center(child: CircularProgressIndicator(),)
           :ElevatedButton(onPressed: ()async{
             try{
