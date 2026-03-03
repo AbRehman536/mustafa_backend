@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mustafa_backend/models/user.dart';
+import 'package:mustafa_backend/models/User.dart';
 import 'package:mustafa_backend/services/auth.dart';
 import 'package:mustafa_backend/services/user.dart';
 
